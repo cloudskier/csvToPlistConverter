@@ -10,4 +10,6 @@ How to use:
  - launch csvToPlistParser.html with Google Chrome (for best compatibility)
  - upload file, parse, download
 
+Extra feature: you can also access the CSV to plist converter directly online via: http://cloudskier.github.io/csvToPlistConverter/
+
 Have Fun!
