@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="Michael Scheuermann" content="CSV to plist Parser">
+<!-- written by Michael Scheuermann alias cloudskier on 14.07.2014 00:21 -->
+
+<title>CSV to Plist Parser</title>
+
+	<style type="text/css">
+	body {
+		background-color:#4374ae;
+		}
+	#inputField {
+		position:fixed;
+		top:50%;
+		left:50%;
+		margin-top:-60px;
+		margin-left:-140px;
+		width: 280px;
+		height: 162px;
+		background-color:#43a5ae;
+		padding-left:12px;
+		padding-bottom:28px;
+		border-radius:12px;
+		}
+	</style>
+    
+	<script type="text/javascript">
+		window.onload = function() {
+			//Check File API support
+			if (window.File && window.FileList && window.FileReader) {
+				var filesInput = document.getElementById("files");
+				filesInput.addEventListener("change", function(event) {
+					var files = event.target.files;
+					var output = document.getElementById("result");
+					
+					for (var i = 0; i < files.length; i++) {
+						var file = files[i];
+						//Only plain text
+						if (!file.type.match('plain')) continue;
+						var picReader = new FileReader();
+						picReader.addEventListener("load", function(event) {
+							var textFile = event.target;
+							var div = document.createElement("div");
+							
+							//contentOfFile contains the whole uploaded CSV document as stringvalue
+							var contentOfFile = textFile.result;
+							
+							
+							//---------------------------------------------------------------------
+							//insert correction for not allowed characters in plist-files here:
+							contentOfFile = contentOfFile.replace(/&/g, "und");
+							//---------------------------------------------------------------------	
+							
+							
+							var row = contentOfFile.split("\r");
+							
+							var allCaptionsAsString = row[0];
+							var numberOfRowsIncludingCaptions = row.length;
+							var column = allCaptionsAsString.split(";");
+							var numberOfColumns = column.length;
+							
+							var innerContent = "";
+							
+							for (var i = 1; i < numberOfRowsIncludingCaptions; i++) {
+								
+								//creating dictionaries for rows in CSV-file
+								var currentRow = row[i];
+								var informationArray = currentRow.split(";");
+								
+								//creating key in dictionary for dictionary
+								innerContent += "\t<key>" + informationArray[0] + "</key>\n" +
+													"\t<dict>\n";
+								//filling dictionary with key and value pairs
+								for (var n = 1; n < numberOfColumns; n++) {
+									innerContent +=	"\t\t<key>" + column[n] + "</key>\n" +
+														"\t\t<string>" + informationArray[n] + "</string>\n";
+								}
+								innerContent += "\t</dict>\n";
+							}
+							
+								
+							//---------------------------------------------------------------------
+							//insert header of plist-file here:
+							var header =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+											"<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
+											"<plist version=\"1.0\">\n" +
+											"<dict>\n";			
+							//---------------------------------------------------------------------
+								
+									
+							//---------------------------------------------------------------------
+							//insert footer of plist-file here:
+							var footer = 	"</dict>\n" +
+											"</plist>";			
+							//---------------------------------------------------------------------	
+								
+												
+							var content = header + innerContent + footer;
+							var textFile = null,
+							makeTextFile = function (text) {
+							var data = new Blob([text], {type: 'text/plain'});
+							
+							// If we are replacing a previously generated file we need to manually revoke the object URL to avoid memory leaks.
+							if (textFile !== null) {
+								window.URL.revokeObjectURL(textFile);
+							}
+							textFile = window.URL.createObjectURL(data);
+							return textFile;
+						}
+						
+						var create = document.getElementById('create');
+						create.addEventListener('click', function () {
+						var link = document.getElementById('downloadlink');
+						link.href = makeTextFile(content);
+						link.style.display = 'block';
+					}, false);
+				});
+				
+				//Read the text file
+				picReader.readAsText(file);
+			}
+			
+		});
+	}
+	else {
+		console.log("Your browser does not support File API");
+	}
+}
+	</script>
+</head>
+<body>
+    <div id="inputField">
+        <p>
+            <b>CSV to plist parser</b>
+		</p>
+		<p>
+            <label for="files">Select CSV file: </label>
+        </p>
+        <p>
+            <input id="files" type="file" />
+            <output id="result" />
+        </p>
+        <p>
+        <button id="create">Parse</button>
+        </p>
+        <p>
+            <a download="parsedFile.plist" id="downloadlink" style="display: none">download plist</a>
+        </p>
+    </div>
+</body>
+</html>
