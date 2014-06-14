@@ -41,7 +41,6 @@
 						var picReader = new FileReader();
 						picReader.addEventListener("load", function(event) {
 							var textFile = event.target;
-							var div = document.createElement("div");
 							
 							//contentOfFile contains the whole uploaded CSV document as stringvalue
 							var contentOfFile = textFile.result;
@@ -115,13 +114,10 @@
 								else {
 									var startIndex = 0;	
 								}
-								var numberOfRowsIncludingCaptions = row.length - startIndex;
-								var p;
-								alert(numberOfRowsIncludingCaptions);
-								for (var i = 0; i < numberOfRowsIncludingCaptions; i++) {
-										p = i + startIndex;
+								var numberOfRowsIncludingCaptions = row.length;
+								for (var i = startIndex; i < numberOfRowsIncludingCaptions; i++) {
 										//creating array rows out of CSV-file
-										var currentRow = row[p];
+										var currentRow = row[i];
 										var informationArray = currentRow.split(";");
 										var numberOfColumns = informationArray.length;
 										
@@ -135,8 +131,6 @@
 										innerContent += "\t</array>\n";
 								}
 								break;
-								default:
-								alert("default");
 						}
 						
 						
