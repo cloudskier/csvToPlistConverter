@@ -1,24 +1,22 @@
 //Check File API support
 function parse() {
 	if (window.File && window.FileList && window.FileReader) {
-				var filesInput = document.getElementById("files");
-				filesInput.addEventListener("change", function(event) {
-					var files = event.target.files;
-					var output = document.getElementById("result");
-					
-					for (var i = 0; i < files.length; i++) {
-						var file = files[i];
-						//Only plain text
-						if (!file.type.match('plain')) continue;
-						var picReader = new FileReader();
-						picReader.addEventListener("load", function(event) {
+		var filesInput = document.getElementById("files");
+		filesInput.addEventListener("change", function(event) {
+		var files = event.target.files;
+		var output = document.getElementById("result");
+		var file = files[0];
+		if (!file.type.match('plain')) {
+			var picReader = new FileReader();
+			picReader.addEventListener("load", function(event) {
 							var textFile = event.target;
 							
 							//contentOfFile contains the whole uploaded CSV document as stringvalue
 							var contentOfFile = textFile.result;
 							
 							var textFile = null,
-							makeTextFile = function (text) {	
+							makeTextFile = function(text) {	
+								
 							var data = new Blob([text], {type: 'text/plain'});
 							
 							// If we are replacing a previously generated file we need to manually revoke the object URL to avoid memory leaks.
@@ -80,12 +78,8 @@ function parse() {
 								}
 								break;
 							case 1: //array
-								if ( hasCaptions ) {
-									var startIndex = 1;
-								}
-								else {
-									var startIndex = 0;	
-								}
+								var startIndex = hasCaptions ? 1 : 0; 
+							
 								var numberOfRowsIncludingCaptions = row.length;
 								for (var i = startIndex; i < numberOfRowsIncludingCaptions; i++) {
 										//creating array rows out of CSV-file
@@ -129,11 +123,10 @@ function parse() {
 						link.style.display = 'block';
 					}, false);
 				});
-				
-				//Read the text file
-				picReader.readAsText(file);
-			}
+					picReader.readAsText(file);
+		}
 			
+								
 		});
 	}
 	else {
