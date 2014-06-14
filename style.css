@@ -1,0 +1,16 @@
+body {
+		background-color:#4374ae;
+		}
+	#inputField {
+		position:fixed;
+		top:50%;
+		left:50%;
+		margin-top:-132px;
+		margin-left:-140px;
+		width: 280px;
+		height: 236px;
+		background-color:#43a5ae;
+		padding-left:12px;
+		padding-bottom:28px;
+		border-radius:12px;
+		}
