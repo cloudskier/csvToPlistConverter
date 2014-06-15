@@ -5,8 +5,7 @@ CSV to plist converter
 
 How to use:
 
- - name captions of columns in csv as wanted (must be included!)
- - rename filetype from ".csv" to ".txt"
+ - name captions of columns in csv as wanted (csv must contain captions if desired format is dictionary!)
  - download the index.html and launch it with Google Chrome (for best compatibility) or use the provided link below
  - upload file, parse, download
 
