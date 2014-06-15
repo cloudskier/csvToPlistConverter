@@ -14,10 +14,10 @@
 		position:fixed;
 		top:50%;
 		left:50%;
-		margin-top:-132px;
-		margin-left:-140px;
+		margin-top:-152px;
+		margin-left:-146px;
 		width: 280px;
-		height: 236px;
+		height: 274px;
 		background-color:#43a5ae;
 		padding-left:12px;
 		padding-bottom:28px;
@@ -151,6 +151,18 @@
 							
 											
 						var content = header + innerContent + footer;
+						
+						//setting file name
+						var filename = document.getElementById("fileName").value;
+						var downloadName = document.getElementById("downloadlink");
+						var filetype = filename.substr( filename.length - 6, 6);
+						if (filename == "") {
+							filename = "parsedFile";	
+						}
+						if( filetype !== ".plist" ) {
+							filename += ".plist";	
+						}
+						downloadName.download = filename;
 							
 						var link = document.getElementById('downloadlink');
 						link.href = makeTextFile(content);
@@ -193,13 +205,16 @@
   				<option>CSV has no captions</option>
  				<option>CSV has captions</option>
             </select>
+            <p>
+            	Set file name:<input type="text" id="fileName">
+            </p>
         	</form>
         </p>
         <p>
         	<button id="create">Parse</button>
         </p>
         <p>
-        	<a download="parsedFile.plist" id="downloadlink" style="display: none">download plist</a>
+        	<a  id="downloadlink" style="display: none">download plist</a>
         </p>
     </div>
 </body>
