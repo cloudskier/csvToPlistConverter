@@ -36,8 +36,8 @@
 					
 					for (var i = 0; i < files.length; i++) {
 						var file = files[i];
-						//Only plain text
-						if (!file.type.match('plain')) continue;
+						//For Only plain text (.txt)
+						//if (!file.type.match('plain')) continue;
 						var picReader = new FileReader();
 						picReader.addEventListener("load", function(event) {
 							var textFile = event.target;
