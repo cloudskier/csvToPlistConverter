@@ -26,6 +26,11 @@
 	</style>
     
 	<script type="text/javascript">
+		function updateView() {
+			var selectedSeparatingCharacter = document.getElementById("selectSeparatingCharacter").value;
+			alert(selectedSeparatingCharacter);	
+		}
+		
 		window.onload = function() {
 			//Check File API support
 			if (window.File && window.FileList && window.FileReader) {
@@ -191,14 +196,14 @@
             <b>CSV to plist parser</b>
 		</p>
 		<p>
-			<label for="files">Select CSV file: </label>
+			<label for="files">Select CSV file : </label>
         </p>
         <p>
         	<input id="files" type="file" />
             <output id="result" />
         </p>
         <p>
-        	Choose format:
+        	Choose format :
         	<form>
             <select id="conversionType">
   				<option>dictionary</option>
@@ -210,7 +215,7 @@
             </select>
             <p>
 				Separating character (SC) : 
-            	<select id="selectSeparatingCharacter">
+            	<select onchange="updateView()" id="selectSeparatingCharacter">
 	            	<option value=";">;</option>
 	            	<option value=":">:</option>
 	            	<option value=",">,</option>
@@ -218,7 +223,7 @@
             	</select>
    			</p>
             <p>
-            	Set filename:<input type="text" id="fileName">
+            	Set filename : <input type="text" id="fileName">
             </p>
         	</form>
         </p>
