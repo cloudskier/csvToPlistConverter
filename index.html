@@ -91,6 +91,7 @@
 							
 							//contentOfFile contains the whole uploaded CSV document as stringvalue
 							var contentOfFile = textFile.result;
+							var nameOfFile = file.name;
 							
 							var textFile = null,
 							makeTextFile = function (text) {	
@@ -204,7 +205,7 @@
 						var downloadName = document.getElementById("downloadlink");
 						var filetype = filename.substr( filename.length - 6, 6);
 						if (filename == "") {
-							filename = "parsedFile";	
+							filename = nameOfFile;
 						}
 						if( filetype !== ".plist" ) {
 							filename += ".plist";	
