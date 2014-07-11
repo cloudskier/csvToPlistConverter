@@ -125,12 +125,14 @@
 						var hasCaptions = csvHasCaptions.selectedIndex;
 													
 						/*possible values for selectedOption:
-							0 --> dictionary
-							1 --> array
+							0 --> dict -> dict
+							1 --> dict -> array
+							2 --> simple array
 						*/
 
 						switch (selectedOption) {
-							case 0: //dictionary
+							case 0: //dict -> dict
+								innerContent += "<dict>\n";
 								if ( !hasCaptions ) {
 									alert("Dictionary has to contain captions for assigning keys! Converted with assuming keys exist in CSV");
 								}
@@ -155,8 +157,10 @@
 									}
 									innerContent += "\t</dict>\n";
 								}
+								innerContent += "</dict>\n";
 								break;
-							case 1: //array
+							case 1: //dict -> array
+								innerContent += "<dict>\n";
 								if ( hasCaptions ) {
 									var startIndex = 1;
 								}
@@ -179,6 +183,21 @@
 										}
 										innerContent += "\t</array>\n";
 								}
+								innerContent += "</dict>\n";
+								break;
+								case 2: //simple array
+								innerContent += "<array>\n";
+								if ( hasCaptions ) {
+									var startIndex = 1;
+								}
+								else {
+									var startIndex = 0;
+								}
+								var numberOfRowsIncludingCaptions = row.length;
+								for (var i = startIndex; i < numberOfRowsIncludingCaptions; i++) {
+									innerContent += "\t<string>" + row[i] + "</string>\n";
+								}
+								innerContent += "</array>\n";
 								break;
 						}
 						
@@ -187,15 +206,13 @@
 						//insert header of plist-file here:
 						var header =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
 										"<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
-										"<plist version=\"1.0\">\n" +
-										"<dict>\n";			
+										"<plist version=\"1.0\">\n";
 						//---------------------------------------------------------------------
 							
 								
 						//---------------------------------------------------------------------
 						//insert footer of plist-file here:
-						var footer = 	"</dict>\n" +
-										"</plist>";			
+						var footer = "</plist>";			
 						//---------------------------------------------------------------------	
 							
 											
@@ -255,8 +272,9 @@
         	Choose format :
         	<form>
             <select id="conversionType">
-  				<option>dictionary</option>
- 				<option>array</option>
+  				<option>dict -> dict</option>
+ 				<option>dict -> array</option>
+ 				<option>simple array</option>
             </select>
             <select id="csvHasCaptions">
   				<option>CSV has no captions</option>
