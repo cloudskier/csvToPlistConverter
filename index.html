@@ -92,6 +92,7 @@
 							//contentOfFile contains the whole uploaded CSV document as stringvalue
 							var contentOfFile = textFile.result;
 							var nameOfFile = file.name;
+							nameOfFile = nameOfFile.substr( 0, (nameOfFile.length - 4));
 							
 							var textFile = null,
 							makeTextFile = function (text) {	
