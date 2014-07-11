@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="Michael Scheuermann" content="CSV to plist Parser">
+<meta http-equiv="Content-Type" name="Michael Scheuermann" content="text/php; charset=utf-8">
 <!-- written by Michael Scheuermann alias cloudskier on 14.07.2014 00:21 -->
 
 <title>CSV to Plist Parser</title>
@@ -25,7 +25,7 @@
 		}
 	</style>
     
-	<script type="text/javascript">
+	<script type="text/javascript" charset="utf-8">
 		function updateView() {
 			if( window.showLink ) {
 				window.selectedSeparatingCharacter = document.getElementById("selectSeparatingCharacter").value;
@@ -83,8 +83,6 @@
 					
 					for (var i = 0; i < files.length; i++) {
 						var file = files[i];
-						//For Only plain text (.txt)
-						//if (!file.type.match('plain')) continue;
 						var picReader = new FileReader();
 						picReader.addEventListener("load", function(event) {
 							var textFile = event.target;
